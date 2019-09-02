@@ -1,0 +1,5 @@
+pymongo==3.9.0
+Flask
+Flask-SQLAlchemy
+Flask-RESTful
+psycopg2-binary
