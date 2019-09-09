@@ -7,7 +7,7 @@ from services.entity_type_s import EntityType
 from services.attribute_s import Attribute
 from services.metadata_s import Metadata
 from services.measure import Measure
-
+from services.last_measure import LastMeasure
 
 server = flask.Flask(__name__)
 
@@ -27,6 +27,7 @@ api.add_resource(Attribute, '/attr/<string:id>')
 api.add_resource(EntityType, '/entity_type/<string:id>')
 api.add_resource(Metadata, '/metadata/<string:id>')
 api.add_resource(Measure, '/measure')
+api.add_resource(LastMeasure, '/last_measure/<string:uuid>')
 
 if __name__ == '__main__':
     from db import db

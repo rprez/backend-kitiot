@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from controllers.kit_c import KitController
+from flask import Response
 
 '''
     Clase encargada de gestionar las APIs Rest
