@@ -31,7 +31,7 @@ class History(Resource):
             kit = self.controller.find_by_uuid(uuid)
             if kit:
                 skips = params.page_size * (params.page_current - 1) if params.page_current else 0
-                message = db.data.find({'device_id': int(uuid)}, sort=[( '_id', DESCENDING)]).skip(skips).limit(params.page_size);
+                message = db.data.find({'device_id': int(uuid)}, {'_id':0}, sort=[( '_id', DESCENDING)]).skip(skips).limit(params.page_size);
                 return Response(dumps(message),mimetype='application/json') if message else {}
             return {'message': 'Kit not found'}, 404
         else:
@@ -46,7 +46,7 @@ class Total(Resource):
     def get(self, uuid):
         kit = self.controller.find_by_uuid(uuid)
         if kit:
-            total = db.data.find({'device_id': int(uuid)}).count()
+            total = db.data.find({'device_id': int(uuid)},{'_id':0}).count()
             return Response(dumps({"total":total}),mimetype='application/json') if total else {"total":0}
         return {'message': 'Kit not found'}, 404
 
@@ -88,6 +88,7 @@ class Measurement(Resource):
                                 'data.data.timestamp': {'$gte': params.start, '$lte': params.end}
                                 }
                      },
+                    {"$project": {"_id":0,"firmware_id":0}},
                     {"$sort": {'data.data.timestamp': -1}}
                 ]
                 query = db.data.aggregate(pipeline)
