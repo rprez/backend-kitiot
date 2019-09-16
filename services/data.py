@@ -30,7 +30,7 @@ class History(Resource):
         if params:
             kit = self.controller.find_by_uuid(uuid)
             if kit:
-                skips = params.page_size * (params.page_current - 1) if params.page_current else 0
+                skips = params.page_size * (params.page_current)
                 message = db.data.find({'device_id': int(uuid)}, {'_id':0}, sort=[( '_id', DESCENDING)]).skip(skips).limit(params.page_size);
                 return Response(dumps(message),mimetype='application/json') if message else {}
             return {'message': 'Kit not found'}, 404
