@@ -4,7 +4,6 @@ from mongo import db
 from pymongo import DESCENDING
 from flask import Response
 from bson.json_util import dumps
-from datetime import datetime
 
 class History(Resource):
 
@@ -91,8 +90,11 @@ class Measurement(Resource):
                     {"$project": {"_id":0,"firmware_id":0}},
                     {"$sort": {'data.data.timestamp': -1}}
                 ]
-                query = db.data.aggregate(pipeline)
-                return Response(dumps(query), mimetype='application/json') if query else {}
+                query = list(db.data.aggregate(pipeline))
+                datas = [element.get('data').get('data')[0].get('value') for element in query if element.get('data') and element.get('data').get('data')[0] ]
+                tss = [element.get('data').get('data')[0].get('timestamp') for element in query if element.get('data') and element.get('data').get('data')[0] ]
+
+                return Response(dumps({'data':datas, 'timestamps': tss}) , mimetype='application/json') if query else {}
             return {'message': 'Kit not found'}, 404
         else:
             return {'message': 'Params: from , to and param cant be null'}, 404

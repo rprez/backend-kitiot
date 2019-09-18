@@ -1,6 +1,5 @@
 from flask_restful import Resource, reqparse
 from controllers.kit_c import KitController
-from flask import Response
 
 '''
     Clase encargada de gestionar las APIs Rest
@@ -35,6 +34,11 @@ class Kit(Resource):
                         required=False,
                         help="This field cannot be blank."
                         )
+    parser.add_argument('installation_date',
+                        type=str,
+                        required=False,
+                        help="This field cannot be blank."
+                        )
 
     def __init__(self):
         self.controller = KitController()
@@ -49,7 +53,7 @@ class Kit(Resource):
     def post(self,uuid):
         data = Kit.parser.parse_args()
         if data:
-            new_kit = self.controller.create_kit(data.uuid,data.name,data.location,data.lat,data.long)
+            new_kit = self.controller.create_kit(data.uuid,data.name,data.location,data.lat,data.long,data.installation_date)
             if new_kit:
                 return {'message': 'Kit create'}, 201
             else:
