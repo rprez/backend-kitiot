@@ -8,8 +8,8 @@ from services.attribute_s import Attribute
 from services.metadata_s import Metadata
 from services.measure import Measure
 from services.last_measure import LastMeasure
-from services.data import History, Total,Measurement
-
+from services.history import History, Total,Measurement
+from services.data import Search, SearchTotal
 
 server = flask.Flask(__name__)
 
@@ -33,6 +33,8 @@ api.add_resource(LastMeasure, '/data/last_measure/<string:uuid>')
 api.add_resource(History, '/data/history/<string:uuid>',endpoint="history")
 api.add_resource(Total, '/data/history/total/<string:uuid>',endpoint="total")
 api.add_resource(Measurement, '/data/measurement/<string:uuid>',endpoint="measurement")
+api.add_resource(Search, '/data/search/<string:uuid>',endpoint="search")
+api.add_resource(SearchTotal, '/data/search/total/<string:uuid>',endpoint="search_total")
 
 if __name__ == '__main__':
     from db import db
