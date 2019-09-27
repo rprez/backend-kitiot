@@ -3,3 +3,4 @@ Flask
 Flask-SQLAlchemy
 Flask-RESTful
 psycopg2-binary
+flask-cors
