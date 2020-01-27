@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 db.init_app(server)
 
-CORS(server,resources={r"/api/*": {"origins": "http://179.27.167.3:3000"}})
+CORS(server,resources={r"/api/*": {"origins": "http://192.168.104.128:3000"}})
 
 @server.before_first_request
 def create_tables():
