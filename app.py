@@ -10,6 +10,7 @@ from services.measure import Measure
 from services.last_measure import LastMeasure
 from services.history import History, Total,Measurement
 from services.data import Search, SearchTotal
+from services.attributeListKit import AttributeListKit
 from flask_cors import CORS
 
 server = flask.Flask(__name__)
@@ -24,9 +25,11 @@ CORS(server,resources={r"/api/*": {"origins": "192.168.104.128:3000"}})
 
 @server.route('/')
 def index():
-    return 'Hi - Rest Api'
+    return 'Hi - Rest OK'
+
 
 api.add_resource(Kit, '/api/kit/<string:uuid>')
+api.add_resource(AttributeListKit, '/api/attrlist/<string:uuid>')
 api.add_resource(Attribute, '/api/attr/<string:id>')
 api.add_resource(EntityType, '/api/entity_type/<string:id>')
 api.add_resource(Metadata, '/api/metadata/<string:id>')
