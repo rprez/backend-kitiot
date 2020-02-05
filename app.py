@@ -19,7 +19,7 @@ server.config['DEBUG'] = True
 
 server.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-server.secret_key = '3b4be1bd-c8a8-479d-nvft-1ac7a5de6c8c'
+server.secret_key = '3b4be1bd-c4a3-x89d-nvft-1ac7a5de6c8c'
 api = Api(server)
 CORS(server,resources={r"/api/*": {"origins": "192.168.104.128:3000"}})
 
