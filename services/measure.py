@@ -11,7 +11,7 @@ class Measure(Resource):
 
     parser = reqparse.RequestParser()
     parser.add_argument('device_id',
-                        type=int,
+                        type=str,
                         required=True,
                         help="This field cannot be blank."
                         )

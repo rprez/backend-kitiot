@@ -45,7 +45,7 @@ class Total(Resource):
     def get(self, uuid):
         kit = self.controller.find_by_uuid(uuid)
         if kit:
-            total = db.data.find({'device_id': int(uuid)},{'_id':0}).count()
+            total = db.data.find({'device_id': uuid},{'_id':0}).count()
             return Response(dumps({"total":total}),mimetype='application/json') if total else {"total":0}
         return {'message': 'Kit not found'}, 404
 
@@ -81,7 +81,7 @@ class Measurement(Resource):
             kit = self.controller.find_by_uuid(uuid)
             if kit:
                 pipeline = [
-                    {"$match": {'device_id': int(uuid)}},
+                    {"$match": {'device_id': uuid}},
                     {"$unwind": {'path': "$data"}},
                     {"$match": {'data.type_id': params.param,
                                 'data.data.timestamp': {'$gte': params.start, '$lte': params.end}

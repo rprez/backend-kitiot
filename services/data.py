@@ -37,7 +37,7 @@ class Search(Resource):
                 skips = params.page_size * (params.page_current)
 
                 pipeline = [
-                    {"$match": {'device_id': int(uuid)}},
+                    {"$match": {'device_id': uuid}},
                     {"$match": {
                             'data.data.timestamp': {'$gte': params.start}
                             }
@@ -73,7 +73,7 @@ class SearchTotal(Resource):
         kit = self.controller.find_by_uuid(uuid)
         if kit:
             pipeline = [
-                    {"$match": {'device_id': int(uuid)}},
+                    {"$match": {'device_id': uuid}},
                     {"$match": {
                             'data.data.timestamp': {'$gte': params.start}
                             }

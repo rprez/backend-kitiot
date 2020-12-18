@@ -17,6 +17,6 @@ class LastMeasure(Resource):
     def get(self,uuid):
         kit = self.controller.find_by_uuid(uuid)
         if kit:
-            message = db.data.find({'device_id': int(uuid)},{'_id':0}, sort=[( '_id', DESCENDING)])[0:2];
+            message = db.data.find({'device_id': uuid},{'_id':0}, sort=[( '_id', DESCENDING)])[0:2];
             return Response(dumps(message),mimetype='application/json' ) if message else {}
         return {'message': 'Kit not found'}, 404
