@@ -98,3 +98,52 @@ class Measurement(Resource):
             return {'message': 'Kit not found'}, 404
         else:
             return {'message': 'Params: from , to and param cant be null'}, 404
+
+
+class Graph(Resource):
+
+    parser = reqparse.RequestParser()
+    parser.add_argument('start',
+                        location='args',
+                        type=int,
+                        required=True,
+                        help="This argument cannot be blank."
+                        )
+    parser.add_argument('end',
+                        location='args',
+                        type=int,
+                        required=True,
+                        help="This argument cannot be blank."
+                        )
+    parser.add_argument('param',
+                        location='args',
+                        type=str,
+                        required=True,
+                        help="This argument cannot be blank."
+                        )
+
+    def __init__(self):
+        self.controller = KitController()
+
+    def get(self, uuid):
+        params = Measurement.parser.parse_args()
+        if params:
+            kit = self.controller.find_by_uuid(uuid)
+            if kit:
+                pipeline = [
+                    {"$match": {'device_id': uuid}},
+                    {"$unwind": {'path': "$data"}},
+                    {"$match": {'data.type_id': params.param,
+                                'data.data.timestamp': {'$gte': params.start, '$lte': params.end}
+                                }
+                     },
+                    {"$project": {"_id":0,"firmware_id":0}},
+                    {"$sort": {'data.data.timestamp': -1}}
+                ]
+                query = list(db.data.aggregate(pipeline))
+                datas = [[element.get('data').get('data')[0].get('value'),int(element.get('data').get('data')[0].get('timestamp'))*1000] for element in query if element.get('data') and element.get('data').get('data')[0] ]
+
+                return Response(dumps({'data':datas}) , mimetype='application/json') if query else {}
+            return {'message': 'Kit not found'}, 404
+        else:
+            return {'message': 'Params: from , to and param cant be null'}, 404
