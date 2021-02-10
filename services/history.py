@@ -141,7 +141,7 @@ class Graph(Resource):
                     {"$sort": {'data.data.timestamp': -1}}
                 ]
                 query = list(db.data.aggregate(pipeline))
-                datas = [[element.get('data').get('data')[0].get('value'),int(element.get('data').get('data')[0].get('timestamp'))*1000] for element in query if element.get('data') and element.get('data').get('data')[0] ]
+                datas = [[int(element.get('data').get('data')[0].get('timestamp'))*1000,element.get('data').get('data')[0].get('value')] for element in query if element.get('data') and element.get('data').get('data')[0] ]
 
                 return Response(dumps({'data':datas}) , mimetype='application/json') if query else {}
             return {'message': 'Kit not found'}, 404
