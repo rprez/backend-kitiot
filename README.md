@@ -1,6 +1,10 @@
 # backend-kitiot
 
-Backend del dashboard de KitIot. 
+Backend de diferentes dashboard de KitIot. 
+
+ . https://kitiot.antel.com.uy/mcas/ 
+ . https://aire.innova.antel.net.uy/
+
 
 ## VARIABLES DE AMBIENTE
 
